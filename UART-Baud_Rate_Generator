@@ -1,4 +1,4 @@
-Top Module
+//Top Module
 
 module Top_Module(clk_t, rst_t, baud_clk_t);
 
@@ -15,7 +15,7 @@ Baud_Rate_Gen1 inst1(
 endmodule
 
 
-Baud Rate Generator
+//Baud Rate Generator
 
 `timescale 1ns / 1ps
 
