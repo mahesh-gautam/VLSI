@@ -1,0 +1,59 @@
+Top Module
+
+module Top_Module(clk_t, rst_t, baud_clk_t);
+
+input clk_t;
+input rst_t;
+output reg baud_clk_t;
+
+Baud_Rate_Gen1 inst1(
+.clk(clk_t),
+.rst(rst_t),
+.baud_clk(baud_clk_t)
+
+);
+endmodule
+
+
+Baud Rate Generator
+
+`timescale 1ns / 1ps
+
+module Baud_Rate_Gen1(clk, rst, baud_clk);
+
+parameter CLOCK_FREQ=50000000;  //Board Internal clock(50MHZ)
+parameter BAUD_RATE=9600;
+
+input wire clk, rst;
+output reg baud_clk;
+
+
+reg [15:0] counter_max=(CLOCK_FREQ/(BAUD_RATE*16));
+reg [15:0] counter;
+
+always @(posedge clk or negedge rst)
+ begin
+     
+    if (!rst)
+        begin 
+            counter<=16'd0;
+            baud_clk<=1'b0;
+            //counter_max<=(CLOCK_FREQ/(BAUD_RATE*16));
+            
+        end
+    
+    else if(counter==counter_max)
+        begin
+            counter<=16'd0;
+            baud_clk<=~baud_clk;
+        end
+        
+    else 
+        begin
+            counter<=counter+1;
+            baud_clk<=baud_clk;
+        end
+    
+  end
+ 
+endmodule
